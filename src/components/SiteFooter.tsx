@@ -1,6 +1,21 @@
-import { Link } from "@tanstack/react-router";
-
 export function SiteFooter() {
+  const navLinks = [
+    ["home", "Home"],
+    ["about", "About"],
+    ["work", "Work"],
+    ["services", "Services"],
+    ["contact", "Contact"],
+  ] as const;
+
+  const onClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  };
+
   return (
     <footer className="border-t border-border mt-32">
       <div className="mx-auto max-w-7xl px-6 md:px-10 py-16 grid gap-10 md:grid-cols-3">
@@ -13,15 +28,9 @@ export function SiteFooter() {
         <div className="text-xs uppercase tracking-[0.2em] space-y-3">
           <p className="text-muted-foreground">Navigate</p>
           <ul className="space-y-2">
-            {[
-              ["/", "Home"],
-              ["/about", "About"],
-              ["/work", "Work"],
-              ["/services", "Services"],
-              ["/contact", "Contact"],
-            ].map(([to, label]) => (
-              <li key={to}>
-                <Link to={to} className="hover:text-primary transition-colors">{label}</Link>
+            {navLinks.map(([id, label]) => (
+              <li key={id}>
+                <a href={`#${id}`} onClick={(e) => onClick(e, id)} className="hover:text-primary transition-colors">{label}</a>
               </li>
             ))}
           </ul>
