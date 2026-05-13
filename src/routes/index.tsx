@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState, useRef } from "react";
 import { Mail, MessageCircle, Instagram, Linkedin, Github, Youtube } from "lucide-react";
 import heroImg from "@/assets/hero.jpg";
 import aboutImg from "@/assets/about.jpg";
@@ -21,11 +22,97 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const orgs = ["Robolution", "NSS Executive Body", "IEEE", "LEO Club", "BIT Mesra YouTube", "Campus Media"];
+// --- HELPER COMPONENTS ---
+
+function Counter({ target, duration = 333 }: { target: string; duration?: number }) {
+  const [count, setCount] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const countRef = useRef<HTMLSpanElement>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const finalNum = parseInt(target.replace(/\D/g, ""));
+  const suffix = target.includes("+") ? "+" : "";
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          let start = 0;
+          const increment = finalNum / (duration / 16);
+          
+          if (timerRef.current) clearInterval(timerRef.current);
+          
+          timerRef.current = setInterval(() => {
+            start += increment;
+            if (start >= finalNum) {
+              setCount(finalNum);
+              if (timerRef.current) clearInterval(timerRef.current);
+            } else {
+              setCount(Math.floor(start));
+            }
+          }, 16);
+        } else {
+          setIsVisible(false);
+          setCount(0);
+          if (timerRef.current) clearInterval(timerRef.current);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (countRef.current) observer.observe(countRef.current);
+    
+    return () => {
+      observer.disconnect();
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [finalNum, duration]);
+
+  if (target === "∞") {
+    return (
+      <span ref={countRef} className="inline-block align-middle">
+        <svg 
+          key={isVisible ? "visible" : "hidden"}
+          viewBox="0 0 100 50" 
+          className="w-16 h-8 md:w-20 md:h-10 overflow-visible" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="3"
+        >
+          <style>
+            {`
+              @keyframes draw-infinity {
+                0% { stroke-dashoffset: 300; opacity: 0; }
+                20% { opacity: 1; }
+                100% { stroke-dashoffset: 0; }
+              }
+              .animate-infinity {
+                stroke-dasharray: 300;
+                animation: draw-infinity 1.2s ease-out forwards;
+              }
+            `}
+          </style>
+          <path
+            className={isVisible ? "animate-infinity" : ""}
+            d="M31.3 12.5C21.6 12.5 13.8 20.3 13.8 30s7.8 17.5 17.5 17.5c10.3 0 18.7-9.5 28.7-19 10-9.5 18.4-19 28.7-19 9.7 0 17.5 7.8 17.5 17.5S88.4 44.5 78.7 44.5c-10.3 0-18.7-9.5-28.7-19-10-9.5-18.4-19-28.7-19z"
+            strokeLinecap="round"
+          />
+        </svg>
+      </span>
+    );
+  }
+
+  return <span ref={countRef}>{count}{suffix}</span>;
+}
+
+// --- DATA ---
+
+const orgs = ["Cinematic Ads", "High-Engagement Reels", "Visual Storytelling", "Color Grading", "Sound Design", "Frame by Frame Control"];
 
 const projects = [
   { img: w1, title: "Robolution — Beyond The Code", desc: "A high-energy promotional film capturing the pulse of campus robotics culture.", role: "Lead Editor / Color", year: "2024", category: "Club Film" },
-  { img: w2, title: "BIT Mesra · Campus Identity", desc: "An advertisement for the official BIT Mesra YouTube channel — quiet, monumental, institutional.", role: "Editor", year: "2024", category: "Advertisement" },
+  { img: w2, title: "BIT Mesra · Campus Identity", desc: "An advertisement for the official BIT Mesra YouTube channel.", role: "Editor", year: "2024", category: "Advertisement" },
   { img: w3, title: "NSS — Voices of Service", desc: "Documentary-style cut weaving volunteer stories into a single emotional arc.", role: "Editor", year: "2025", category: "Documentary" },
   { img: w4, title: "IEEE — The Makers", desc: "Tactile close-ups and electronic score for a chapter recruitment film.", role: "Editor / Motion", year: "2025", category: "Recruitment" },
   { img: w5, title: "LEO Club — Candle Nights", desc: "Intimate event recap composed in warm low-light tones.", role: "Editor", year: "2024", category: "Event Film" },
@@ -37,25 +124,25 @@ const services = [
     n: "01",
     title: "Cinematic Ad Creation",
     sub: "Brand-focused storytelling",
-    body: "Long-form and 60-second cuts engineered to hold attention. I work with founders, institutions, and creators to transform footage into a film that carries a brand's emotional weight — pacing, color, sound, and silence calibrated together.",
+    body: "Long-form and 60-second cuts engineered to hold attention. I work with founders, institutions, and creators to transform footage into a film that carries a brand's emotional weight.",
     bullets: ["Concept & narrative shaping", "Cinematic color grade", "Sound design & licensed score", "Final delivery in any spec"],
   },
   {
     n: "02",
     title: "Social Media Reels",
     sub: "Short-form, high-engagement",
-    body: "Fast, hook-driven edits that earn the scroll. Built for Instagram, YouTube Shorts, and LinkedIn — preserving cinematic taste while obeying the algorithm. Designed to feel like a trailer, not an ad.",
+    body: "Fast, hook-driven edits that earn the scroll. Built for Instagram, YouTube Shorts, and LinkedIn — preserving cinematic taste while obeying the algorithm.",
     bullets: ["Hook design (first 1.5s)", "Motion text & subtitles", "Trend-aware pacing", "Series-ready templates"],
   },
 ];
 
 const channels = [
-  { Icon: Mail, label: "Email", value: "satyam@example.com", href: "mailto:satyam@example.com" },
-  { Icon: MessageCircle, label: "WhatsApp", value: "+91 00000 00000", href: "https://wa.me/910000000000" },
-  { Icon: Instagram, label: "Instagram", value: "@satyam.edits", href: "https://instagram.com" },
-  { Icon: Linkedin, label: "LinkedIn", value: "in/satyam-kumar", href: "https://linkedin.com" },
-  { Icon: Github, label: "GitHub", value: "@satyamk", href: "https://github.com" },
-  { Icon: Youtube, label: "YouTube", value: "Satyam Kumar", href: "https://youtube.com" },
+  { Icon: Mail, label: "Email", value: "satyamf1xz@gmail.com", href: "mailto:satyamf1xz@gmail.com" },
+  { Icon: MessageCircle, label: "WhatsApp", value: "+91 99390 53378", href: "https://wa.me/919939053378" },
+  { Icon: Instagram, label: "Instagram", value: "@satyamfxz", href: "https://instagram.com/satyamfxz" },
+  { Icon: Linkedin, label: "LinkedIn", value: "Satyam Kumar", href: "https://www.linkedin.com/in/satyam-kumar-321b1a332/" },
+  { Icon: Github, label: "GitHub", value: "@Dev-ketsa", href: "https://github.com/Dev-ketsa/" },
+  { Icon: Youtube, label: "YouTube", value: "@ketsacreates", href: "https://www.youtube.com/@ketsacreates" },
 ];
 
 function scrollToId(e: React.MouseEvent<HTMLAnchorElement>, id: string) {
@@ -107,7 +194,7 @@ function Index() {
         </div>
 
         <div className="absolute bottom-6 inset-x-0 z-10 flex justify-between items-center px-6 md:px-10 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-          <span>EST. BIT Mesra · 2024</span>
+          <span>EST. BIT Mesra · 2025</span>
           <span className="hidden md:inline">Scroll ↓</span>
           <span>Reel 01 / 06</span>
         </div>
@@ -139,18 +226,15 @@ function Index() {
               <img src={aboutImg} alt="Satyam Kumar portrait" loading="lazy" width={1280} height={1600} className="absolute inset-0 w-full h-full object-cover ken-burns" />
             </div>
             <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-              Satyam Kumar · b. India · BIT Mesra
+              Satyam Kumar · India · BIT Mesra
             </p>
           </div>
           <div className="md:col-span-7 space-y-8 text-lg leading-relaxed text-muted-foreground">
             <p>
-              I'm Satyam — a cinematic video editor and visual storyteller drawn to the discipline of restraint. My work lives at the intersection of documentary honesty and luxury commercial polish: long lenses, slow tempo, and frames that earn their place.
+              I'm Satyam — a cinematic video editor and visual storyteller drawn to the discipline of restraint. My work lives at the intersection of documentary honesty and luxury commercial polish.
             </p>
             <p>
-              As a B.Tech student at <span className="text-foreground">Birla Institute of Technology, Mesra</span>, I've spent the last five months editing inside real production environments — for <span className="text-foreground">Robolution, NSS Executive Body, IEEE, LEO Club</span>, and the <span className="text-foreground">BIT Mesra official YouTube channel</span>. Each cut is a study in what to leave out.
-            </p>
-            <p>
-              My references shift between Apple commercials, Werner Herzog, A24 trailers, and the silent space inside a Wong Kar-wai frame. The goal is always the same: an image that lingers.
+              As a B.Tech student at <span className="text-foreground">Birla Institute of Technology, Mesra</span>, I've spent several months editing inside production environments for <span className="text-foreground">Robolution, NSS Executive Body, IEEE, LEO Club</span>, and the <span className="text-foreground">BIT Mesra official YouTube channel</span>.
             </p>
             <div className="divider-line my-12" />
             <blockquote className="font-display text-3xl md:text-4xl text-foreground leading-tight not-italic">
@@ -162,13 +246,15 @@ function Index() {
         <div className="border-y border-border bg-card/30">
           <div className="mx-auto max-w-7xl px-6 md:px-10 py-20 grid md:grid-cols-4 gap-10">
             {[
-              ["05+", "Months in production"],
-              ["04", "Campus organizations"],
-              ["20+", "Films delivered"],
+              ["08+", "Months in production"],
+              ["06", "Campus organizations"],
+              ["50+", "Films delivered"],
               ["∞", "Frames cut"],
             ].map(([n, l]) => (
               <div key={l}>
-                <p className="font-display text-6xl text-primary">{n}</p>
+                <p className="font-display text-6xl text-primary">
+                  <Counter target={n} />
+                </p>
                 <p className="mt-3 text-xs uppercase tracking-[0.25em] text-muted-foreground">{l}</p>
               </div>
             ))}
@@ -181,11 +267,7 @@ function Index() {
             <h3 className="font-display text-4xl mt-4">The tools I cut with.</h3>
           </div>
           <div className="md:col-span-8 grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-6 text-foreground">
-            {[
-              "Premiere Pro", "DaVinci Resolve", "After Effects",
-              "Photoshop", "Color Theory", "Sound Design",
-              "Motion Graphics", "Documentary", "Commercial",
-            ].map((t) => (
+            {["Premiere Pro", "DaVinci Resolve", "After Effects", "Photoshop", "Color Theory", "Sound Design", "Motion Graphics", "Documentary", "Commercial"].map((t) => (
               <p key={t} className="border-b border-border pb-3 text-sm uppercase tracking-[0.15em]">{t}</p>
             ))}
           </div>
@@ -199,9 +281,6 @@ function Index() {
           <h2 className="font-display text-6xl md:text-8xl leading-[0.95] text-balance max-w-5xl">
             Selected <span className="italic text-primary">frames</span>, <br/>arranged like film.
           </h2>
-          <p className="mt-8 max-w-xl text-muted-foreground">
-            A curated archive of advertisements, club films, and documentary cuts — each shaped to feel inevitable.
-          </p>
         </div>
 
         <div className="mx-auto max-w-7xl px-6 md:px-10 pb-24 space-y-32">
@@ -243,7 +322,7 @@ function Index() {
         <div className="pt-32 pb-16 mx-auto max-w-7xl px-6 md:px-10">
           <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-6">02 — Offerings</p>
           <h2 className="font-display text-6xl md:text-8xl leading-[0.95] text-balance max-w-5xl">
-            Crafted as <span className="italic text-primary">experiences</span>, <br/>not deliverables.
+            Crafted as <span className="italic text-primary">experiences</span>.
           </h2>
         </div>
 
@@ -271,25 +350,6 @@ function Index() {
             </article>
           ))}
         </div>
-
-        <div className="mx-auto max-w-7xl px-6 md:px-10 py-24">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-6">03 — Process</p>
-          <h3 className="font-display text-5xl md:text-6xl mb-16 text-balance">A film in four acts.</h3>
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              ["Listen", "Understand the story before touching the timeline."],
-              ["Shape", "Rough cut, finding the emotional spine."],
-              ["Refine", "Color, sound, motion — calibrated frame by frame."],
-              ["Deliver", "Master files, formats, and assets, ready to ship."],
-            ].map(([t, d], i) => (
-              <div key={t} className="space-y-3 border-t border-border pt-6">
-                <p className="font-mono text-xs text-primary">0{i + 1}</p>
-                <h4 className="font-display text-2xl">{t}</h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">{d}</p>
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* CONTACT */}
@@ -299,9 +359,6 @@ function Index() {
           <h2 className="font-display text-6xl md:text-8xl leading-[0.95] text-balance max-w-5xl">
             Let's start a <span className="italic text-primary">conversation</span>.
           </h2>
-          <p className="mt-8 max-w-xl text-muted-foreground">
-            Currently open for cinematic ads, short-form collaborations, and brand films. Reach me through any channel below — I read everything.
-          </p>
         </div>
 
         <div className="mx-auto max-w-7xl px-6 md:px-10 pb-24">

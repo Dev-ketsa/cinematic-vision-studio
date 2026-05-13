@@ -38,10 +38,10 @@ export function SiteFooter() {
         <div className="text-xs uppercase tracking-[0.2em] space-y-3">
           <p className="text-muted-foreground">Elsewhere</p>
           <ul className="space-y-2">
-            <li><a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">Instagram</a></li>
-            <li><a href="https://youtube.com" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">YouTube</a></li>
-            <li><a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">LinkedIn</a></li>
-            <li><a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">GitHub</a></li>
+            <li><a href="https://www.instagram.com/satyamfxz/" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">Instagram</a></li>
+            <li><a href="https://www.youtube.com/@ketsacreates" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">YouTube</a></li>
+            <li><a href="https://www.linkedin.com/in/satyam-kumar-321b1a332/" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">LinkedIn</a></li>
+            <li><a href="https://github.com/dev-ketsa" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">GitHub</a></li>
           </ul>
         </div>
       </div>
