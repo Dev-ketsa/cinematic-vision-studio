@@ -40,7 +40,7 @@ export const projects = [
     category: "Personal / Trending reel",
   },
   {
-    youtubeId: "dQexljVbxvE",
+    youtubeId: "6sPTLuPAuKc",
     title: "GTA LEO SANTOS — Event Teaser",
     desc: "GTA-inspired cinematic teaser edit for Leo Club’s BITOTSAV 2026 event | Official club project",
     role: "Editor | Motion Design | Color Grading",
