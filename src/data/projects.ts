@@ -8,12 +8,12 @@ export const projects = [
     category: "Advertisement",
   },
   {
-    youtubeId: "PASTE_ID_HERE",
-    title: "BIT Mesra · Campus Identity",
-    desc: "An advertisement for the official BIT Mesra YouTube channel.",
-    role: "Editor",
-    year: "2024",
-    category: "Advertisement",
+    youtubeId: "iLUO50TM1Lc",
+    title: "ROBOSAGA 2026 — Cinematic Suspense Teaser",
+    desc: "Flagship event teaser for Robolution Club, BIT Mesra | Suspense · Night · Cinematic",
+    role: "Editor | Cinematography | Color Grading",
+    year: "2025",
+    category: "Teaser / Event Film",
   },
   {
     youtubeId: "PASTE_ID_HERE",
