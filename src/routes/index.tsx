@@ -3,12 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { Mail, MessageCircle, Instagram, Linkedin, Github, Youtube } from "lucide-react";
 import heroImg from "@/assets/hero.jpg";
 import aboutImg from "@/assets/about.jpg";
-import w1 from "@/assets/work-1.jpg";
-import w2 from "@/assets/work-2.jpg";
-import w3 from "@/assets/work-3.jpg";
-import w4 from "@/assets/work-4.jpg";
-import w5 from "@/assets/work-5.jpg";
-import w6 from "@/assets/work-6.jpg";
+import { projects } from "@/data/projects";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -109,15 +104,6 @@ function Counter({ target, duration = 333 }: { target: string; duration?: number
 // --- DATA ---
 
 const orgs = ["Cinematic Ads", "High-Engagement Reels", "Visual Storytelling", "Color Grading", "Sound Design", "Frame by Frame Control"];
-
-const projects = [
-  { img: w1, title: "Robolution — Beyond The Code", desc: "A high-energy promotional film capturing the pulse of campus robotics culture.", role: "Lead Editor / Color", year: "2024", category: "Club Film" },
-  { img: w2, title: "BIT Mesra · Campus Identity", desc: "An advertisement for the official BIT Mesra YouTube channel.", role: "Editor", year: "2024", category: "Advertisement" },
-  { img: w3, title: "NSS — Voices of Service", desc: "Documentary-style cut weaving volunteer stories into a single emotional arc.", role: "Editor", year: "2025", category: "Documentary" },
-  { img: w4, title: "IEEE — The Makers", desc: "Tactile close-ups and electronic score for a chapter recruitment film.", role: "Editor / Motion", year: "2025", category: "Recruitment" },
-  { img: w5, title: "LEO Club — Candle Nights", desc: "Intimate event recap composed in warm low-light tones.", role: "Editor", year: "2024", category: "Event Film" },
-  { img: w6, title: "Spotlight — Short Film", desc: "An experimental piece exploring presence, absence, and a single light source.", role: "Editor / Director", year: "2025", category: "Short Film" },
-];
 
 const services = [
   {
@@ -288,13 +274,12 @@ function Index() {
             <article key={p.title} className="group grid md:grid-cols-12 gap-8 md:gap-16 items-center">
               <div className={`md:col-span-7 ${i % 2 === 1 ? "md:order-2" : ""}`}>
                 <div className="relative aspect-[16/10] overflow-hidden bg-card">
-                  <img
-                    src={p.img}
-                    alt={p.title}
-                    loading="lazy"
-                    width={1280}
-                    height={800}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105"
+                  <iframe
+                    src={`https://www.youtube.com/embed/${p.youtubeId}?rel=0&modestbranding=1`}
+                    title={p.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="absolute inset-0 w-full h-full border-0"
                   />
                 </div>
               </div>
@@ -364,7 +349,7 @@ function Index() {
         <div className="mx-auto max-w-7xl px-6 md:px-10 pb-24">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border">
             {channels.map(({ Icon, label, value, href }) => (
-              <a
+              
                 key={label}
                 href={href}
                 target="_blank"
