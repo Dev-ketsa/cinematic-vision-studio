@@ -349,7 +349,7 @@ function Index() {
         <div className="mx-auto max-w-7xl px-6 md:px-10 pb-24">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border">
             {channels.map(({ Icon, label, value, href }) => (
-              
+              <a
                 key={label}
                 href={href}
                 target="_blank"
