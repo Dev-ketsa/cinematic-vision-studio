@@ -1,11 +1,11 @@
 export const projects = [
   {
-    youtubeId: "PASTE_ID_HERE",
-    title: "Faculty Development Program | BIT Mesra",
-    desc: "A high-energy promotional film capturing the pulse of campus robotics culture.",
-    role: "Lead Editor / Color",
-    year: "2024",
-    category: "Club Film",
+    youtubeId: "7NWo3XY3bHI",
+    title: "Faculty Development Program 2026 | BIT Mesra",
+    desc: "Official event video edited for BIT Mesra's official page | EEE Department",
+    role: "Editor | Motion graphics",
+    year: "2026",
+    category: "Advertisement",
   },
   {
     youtubeId: "PASTE_ID_HERE",
